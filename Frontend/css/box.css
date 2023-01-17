@@ -1,0 +1,44 @@
+#box1{
+    display: flex;
+}
+#box1>div{
+    text-align: center;
+    gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+}
+#box1 button{
+    margin: auto;
+    margin-top: 30px;
+    align-content: space-between;
+}
+#box1 img{
+    height: 350px;
+    width: 100%;
+}
+#box2{
+    display: flex;
+    width: 98%;
+            margin: auto;
+            background-color: rgb(197, 71, 71);
+}
+#box2>div{
+    text-align: center;
+    gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+}
+#box2 button{
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    align-content: space-between;
+    background-color: black;
+    color: white;
+}
+#box2 img{
+    height: 200px;
+    width: 200px;
+}
+

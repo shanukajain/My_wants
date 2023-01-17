@@ -1,0 +1,64 @@
+*/{
+    margin: auto;
+    width: 90%;
+}
+#home{
+   width: 100%;
+   margin: auto;
+   position: relative;
+   margin-top: 200px;
+}
+#home div:nth-child(1){
+    width: 70%;
+    margin: auto;
+    margin-bottom: 20px;
+}
+#home div:nth-child(3){
+    width: 70%;
+    margin: auto;
+    margin-bottom: 20px;
+}
+#home button{
+    height: 40px;
+    margin: auto;
+    border: 2px solid black;
+    background-color: transparent;
+}
+#menubar button{
+    background-color: transparent;
+    border: 0px;
+    margin-top: 10px;
+    font-size: 25px;
+    }
+
+#Redbar{
+    width: 98%;
+    margin: auto;
+    /* position: relative; */
+    /* margin-top: 100px; */
+    background-color: rgb(197, 71, 71);
+ }
+ #Redbar div:nth-child(2){
+padding-left: 2%;
+ }
+ #Redbar img{
+    /* width: 100%; */
+    height: 350px;
+    border: 1px solid black;
+ }
+ #Redbar div:nth-child(1){
+    width: 70%;
+    /* margin: auto; */
+    margin-bottom: 20px;
+    background-color:transparent;
+    /* color: white; */
+}
+#Redbar button{
+    color: white;
+}
+#Redbar div:nth-child(3){
+    width: 70%;
+    /* margin: auto; */
+    margin-bottom: 20px;
+    background-color:transparent;
+}
