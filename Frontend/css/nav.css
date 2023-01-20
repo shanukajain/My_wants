@@ -4,13 +4,8 @@
     z-index: 1;
     position: fixed;
     text-align: center;
-    margin-top: -10px;
+    margin-top:-16px;
     background-color: white;
-}
-
-a {
-    color: white;
-    margin: auto;
 }
 
 #bar {
@@ -22,6 +17,12 @@ a {
 
     margin-bottom: 10px;
 }
+#menubar button{
+    background-color: transparent;
+    border: 0px;
+    margin-top: 10px;
+    font-size: 25px;
+    }
 
 #top11 {
     margin-top: 20px;
@@ -50,6 +51,8 @@ a {
 #bottom {
     display: flex;
     justify-content: space-around;
+    position: relative;
+    /* margin-top: 200px; */
     background-color: rgb(217, 214, 214);
     color: rgb(43, 41, 41);
     margin-top: 20px;

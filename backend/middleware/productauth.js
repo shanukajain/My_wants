@@ -1,17 +1,22 @@
 const jwt= require("jsonwebtoken");
 require("dotenv").config();
 const key=process.env.key;
-const authenticate=(req,res,next)=>{
+const productauth=(req,res,next)=>{
     // console.log(req.body)
     try {
         let token=req.headers.authorization;
         // console.log(token);
        let decoded=jwt.verify(token, key);
        if(decoded){
-       let userID=decoded;
-       req.body.userID=decoded.userID
+    //    let userID=decoded;
+    //    req.body.userID=decoded.userID
+    console.log(decoded);
+    if(decoded.role=='admin'){
        console.log(decoded);
        next();
+    }else {
+        res.send({"msg":"you are not admin"})
+    }
        }
        else{
         res.send({"msg":"login first....."})
@@ -22,5 +27,5 @@ const authenticate=(req,res,next)=>{
     }
 }
 module.exports={
-    authenticate
+    productauth
 }

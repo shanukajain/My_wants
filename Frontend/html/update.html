@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://kit.fontawesome.com/b06a377e67.js" crossorigin="anonymous"></script>
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/nav.css">
+    <link rel="stylesheet" href="../css/box.css">
+    <link rel="stylesheet" href="../css/sing_up.css">
+    <style>
+        h1 {
+            margin: auto;
+            /* margin-top: 200px;  */
+        }
+
+        #main {
+            text-align: center;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+        <div id="top">
+            <div id="top11">
+
+                <div>
+                    <a href="../index.html"> <img src="../image/My.png" alt=""
+                            style="height: 55px; margin-top: -10px;"></a>
+                </div>
+                <div id="top2">
+                    <div id="top21">
+                        <div>
+                            <a href="./newproduct.html"><i class='fas fa-user-alt' style='font-size:24px'></i>
+                                <h4 style="margin-top: 2px;">New Product</h4>
+                            </a>
+                        </div>
+                        <div>
+                            <i class='fas fa-user-alt' style='font-size:24px'></i>
+                            <h4 onclick="logout()" style="margin-top: 2px;">Logout</h4>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+
+
+                <hr>
+            </div>
+            <div id="signup">
+                <h1>Write the details of the product</h1>
+                <form action="">
+                    <input type="text" placeholder="Image link" id="Imagesrc"><input type="text" placeholder="Title" id="name"><input
+                        type="text" placeholder="Details" id="Details"><input type="text" placeholder="Price" id="Price"><input type="submit">
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+</body>
+
+</html>
+<script>
+    let data=JSON.parse(localStorage.getItem("product_id"))
+    console.log(data[0])
+    document.querySelector("#Imagesrc").value=data[0].Imagesrc;
+    document.querySelector("#Price").value=data[0].Price
+    document.querySelector("#Details").value=data[0].Details
+    document.querySelector("#name").value=data[0].name
+    document.querySelector("form").addEventListener("submit",async()=>{
+        event.preventDefault();
+let Imagesrc= document.querySelector("#Imagesrc").value;
+   let Price= document.querySelector("#Price").value;
+   let Details= document.querySelector("#Details").value;
+let name=document.querySelector("#name").value;
+console.log(data)
+let id=data[0]._id;
+let token=localStorage.getItem("admindetails")
+let obj={
+    Imagesrc,Price,Details,name
+}
+    let res= await fetch(`http://localhost:3000/product/update/${id}`,{
+            method:"PATCH",
+            body:JSON.stringify(obj),
+            headers: {"Content-Type": "application/json","authorization":token}
+        })
+        console.log(res);
+        // alert("Product has been deleted");
+    })
+
+</script>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/nav.css">
+    <link rel="stylesheet" href="../css/box.css">
+    <link rel="stylesheet" href="../css/sing_up.css">
+    <script src="https://kit.fontawesome.com/b06a377e67.js" crossorigin="anonymous"></script>
+    <title>Document</title>
+    <style>
+        h1 {
+            margin: auto;
+            /* margin-top: 200px;  */
+        }
+
+        #main {
+            text-align: center;
+        }
+        a{
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+        <div id="top">
+            <div id="top11">
+                
+                <div>
+                    <a href="./adminhome.html"> <img src="../image/My.png" alt=""
+                            style="height: 55px; margin-top: -10px;"></a>
+                </div>
+                <div id="top2">
+                    <div id="top21">
+                        <div>
+                            <a href="./adminsignup.html"><i class='fas fa-user-alt' style='font-size:24px'></i>
+                                <h4 style="margin-top: 2px;">Sign_up</h4>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="./adminlogin.html"> <i class='fas fa-user-alt' style='font-size:24px'></i>
+                                <h4 style="margin-top: 2px;">Login</h4>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <div>
+                    
+                  
+                    <hr>
+                </div>
+                <div id="signup">
+                    <!-- <h1 style="margin: auto;">Become a My Wants Member</h1> -->
+                    <form action="">
+                        <input type="text" placeholder="Name" id="name">
+                        <input type="text" placeholder="email" id="email">
+                        <input type="text" placeholder="gender" id="gender">
+                        <input type="text" placeholder="username" id="username">
+                        <input type="password" placeholder="password" id="pass">
+                        <input type="password" placeholder="Confirm password" id="cpass">
+                        <input type="submit">
+                    </form>
+                </div>
+        </div>     
+    </div>
+</body>
+
+</html>
+<script>
+     let url="http://localhost:3000/create"
+    document.querySelector("form").addEventListener("submit",async(event)=>{
+        event.preventDefault();
+        let name=document.querySelector("#name").value
+        let email=document.querySelector("#email").value
+        let pass=document.querySelector("#pass").value
+        let cpass=document.querySelector("#cpass").value
+        let Username=document.querySelector("#username").value
+        let gender=document.querySelector("#gender").value
+        let role="admin";
+        if(name&& email && pass && gender && Username && cpass){
+            if(cpass!==pass){
+                alert("Password doesn't match");
+            }else {
+            let obj={
+                name,email,Username,pass,gender,role
+            }
+            try {
+                console.log(obj);
+                let res=await fetch(url,{
+                    method:"POST",
+                    body:JSON.stringify(obj),
+                    headers: {"Content-Type": "application/json"}
+                })
+                let data= await res.json();
+                console.log(data);
+                window.location="./adminlogin.html";
+            }catch(error){
+                console.log(error)
+            }
+        }
+    }else {
+        alert("fill all the fields")
+    }
+    })
+</script>

@@ -42,3 +42,10 @@
     width: 200px;
 }
 
+#box3{
+    display: grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    justify-content: space-evenly;
+    text-align: center;
+}

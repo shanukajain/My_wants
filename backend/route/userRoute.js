@@ -22,10 +22,10 @@ userRouter.post("/create",async(req,res)=>{
        await bcrypt.hash(payload.pass, 5,async function(err, hash) {
         // console.log(hash)
         payload.pass= await hash;
-        // console.log(payload);
+        console.log(payload);
        let data=new UserModel(payload);
        await data.save();
-       res.send("Done");
+       res.send({"msg":"Done"});
     });
     } catch (error) {
         console.log(error);
@@ -36,14 +36,26 @@ userRouter.post("/login",async(req,res)=>{
     try {
        let {Username,pass}=req.body;
        let data=await UserModel.findOne({"Username":Username});
+       console.log(req.body);
+       console.log(data);
+       if(data==null){
+        res.send({"msg":"invaild username"})
+       }else{
        bcrypt.compare(pass, data.pass).then(function(result) {
         if(result){
-            var token = jwt.sign({ userID: data._id }, key);
+            var token = jwt.sign({ userID: data._id,role:data.role}, key);
             res.send({"msg":"login sussfully","token":token});
         }else {
             res.send({"msg":"Wrong Password"});
         }
+        
     });
+}
+userRouter.delete("/delete/:id",async(req,res)=>{
+    let id=req.params.id;
+    await ProductModel.findByIdAndDelete({"_id":id})
+    res.send({"msg":"done"});
+})
    
     } catch (error) {
         console.log(error);

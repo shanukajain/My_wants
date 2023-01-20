@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script src="https://kit.fontawesome.com/b06a377e67.js" crossorigin="anonymous"></script>
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/nav.css">
+    <link rel="stylesheet" href="../css/box.css">
+    <link rel="stylesheet" href="../css/table.css">
+    <style>
+        
+        h1 {
+            margin: auto;
+            /* margin-top: 200px;  */
+        }
+
+        #main {
+            text-align: center;
+        }
+        a{
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+        <div id="top">
+            <div id="top11">
+                
+                <div>
+                    <a href="../index.html"> <img src="../image/My.png" alt=""
+                            style="height: 55px; margin-top: -10px;"></a>
+                </div>
+                <div id="top2">
+                    <div id="top21">
+                        <div>
+                            <a href="./newproduct.html"><i class='fas fa-user-alt' style='font-size:24px'></i>
+                                <h4 style="margin-top: 2px;">New Product</h4>
+                            </a>
+                        </div>
+                        <div>
+                           <i class='fas fa-user-alt' style='font-size:24px'></i>
+                                <h4 onclick="logout()" style="margin-top: 2px;">Logout</h4>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <div>
+                    
+                  
+                    <hr>
+                </div>
+            
+                <div id="box4">
+                   
+                </div>
+                
+                 </div>
+    </div>
+
+
+
+
+
+
+</body>
+
+</html>
+<script>
+     let url="http://localhost:3000/all"
+    display();
+ function logout(){
+        console.log("helo")
+        localStorage.setItem("admindetails"," ");
+        window.location="./adminhome.html"
+    }
+   
+  async function display(){
+    let res=await fetch(url);
+    let data=await res.json();
+    console.log(data);
+    let newdata=data.map((ele,index)=>{
+return`
+    <tr><td>${ele.name}</td>
+    <td>${ele.gender}</td>
+    <td>${ele.role}</td>
+    <td><button id="${ele._id}" class="delete">Delete</button></td></tr>
+`
+    }).join("");
+document.querySelector("#box4").innerHTML= `<table>
+                        <thead>
+                            <tr> <td>Title</td>
+                            <td>Gender</td>
+                        <td>Role</td>
+                    <td>Delete</td>
+                    </tr>
+                        </thead>
+                   
+                    <tbody>${newdata}</tbody>
+                </table>`;
+let delop=document.querySelectorAll(".delete")
+for(i=0;i<delop.length;i++){
+    delop[i].addEventListener("click",async()=>{
+        // console.log(i,"hello")
+        let id=event.srcElement.id;
+        let token=localStorage.getItem("admindetails")
+        console.log(id);
+        let res= await fetch(`http://localhost:3000/product/delete/${id}`,{
+            method:"DELETE",
+            headers: {"Content-Type": "application/json","authorization":token}
+        })
+        alert("User has been deleted");
+    })
+    }
+
+
+}
+    
+</script>

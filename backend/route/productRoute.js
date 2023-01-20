@@ -1,4 +1,5 @@
 const express=require("express");
+const { productauth } = require("../middleware/productauth");
 const { ProductModel } = require("../models/productmodel");
 const ProdcutRouter=express.Router();
 ProdcutRouter.use(express.json());
@@ -15,6 +16,7 @@ ProdcutRouter.get("/all",async(req,res)=>{
         res.send(error);
     }
 })
+ProdcutRouter.use(productauth);
 ProdcutRouter.post("/create",async(req,res)=>{
     try {
        let payload=req.body;

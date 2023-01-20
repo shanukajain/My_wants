@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/nav.css">
+    <link rel="stylesheet" href="../css/box.css">
+    <link rel="stylesheet" href="../css/sing_up.css">
+    <script src="https://kit.fontawesome.com/b06a377e67.js" crossorigin="anonymous"></script>
+    <title>Document</title>
+    <style>
+        h1 {
+            margin: auto;
+            /* margin-top: 200px;  */
+        }
+
+        #main {
+            margin-top: 200px;
+            text-align: center;
+        }
+        a{
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+                
+                <div>
+                    <a href="../index.html"> <img src="../image/My.png" alt=""
+                            style="height: 55px; margin-top: -10px;"></a>
+                </div>
+        <form action="">
+            <input type="text" placeholder="Image link" id="src"><input type="text" placeholder="Title" id="title"><input type="text" placeholder="Detail of the product" id="Details"><input type="text" placeholder="Price" id="Price"><input type="submit">
+           </form> 
+    </div>
+</body>
+
+</html>
+<script>
+    let url="http://localhost:3000/product/create"
+    document.querySelector("form").addEventListener("submit",async(event)=>{
+        event.preventDefault();
+        let Imagesrc=document.querySelector("#src").value
+        let name=document.querySelector("#title").value
+        let Details=document.querySelector("#Details").value
+        let Price=+document.querySelector("#Price").value
+       
+        if(Imagesrc&& name && Details && Price){
+            
+            let obj={
+              name,Details,Imagesrc,Price
+            }
+            let token=localStorage.getItem("admindetails");
+            try {
+                console.log(obj);
+                let res=await fetch(url,{
+                    method:"POST",
+                    body:JSON.stringify(obj),
+                    headers: {"Content-Type": "application/json","authorization":token}
+                })
+                let data= await res.json();
+                console.log(data);
+                window.location="./Product.html";
+            }catch(error){
+                console.log(error)
+            }
+        }
+    else {
+        alert("fill all the fields")
+    }
+    })
+</script>

@@ -4,6 +4,7 @@ const cartRouter=express.Router();
 cartRouter.use(express.json());
 cartRouter.use(authenticate);
 cartRouter.get("/",(req,res)=>{
+    console.log(req.body);
     res.send("cart page")
 })
 cartRouter.get("/all",async(req,res)=>{
