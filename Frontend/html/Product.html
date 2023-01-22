@@ -16,7 +16,11 @@
             margin: auto;
             /* margin-top: 200px;  */
         }
-
+        #top {
+            width: 98%;
+            margin: auto;
+            text-align: center;
+        }
         #main {
             text-align: center;
         }
@@ -31,13 +35,26 @@
     <div id="main">
         <div id="top">
             <div id="top11">
-                
+                <select name="" id="filter">
+                    <option value="">Price Filter</option>
+                    <option value="asc">Low to High</option>
+                    <option value="desc">High to Low</option>
+                </select>
                 <div>
-                    <a href="../index.html"> <img src="../image/My.png" alt=""
+                    <a href="./adminhome.html"> <img src="../image/My.png" alt=""
                             style="height: 55px; margin-top: -10px;"></a>
                 </div>
                 <div id="top2">
+                    <div>
+                        <input type="text" placeholder="Search.." id="sear" name="search" style="border: 0px; border-bottom: 1px solid black;">
+                        <button type="submit" style="border: 0px; background-color:transparent; margin-left: -35px;" onclick="search()"><i
+                                class="fa fa-search"></i></button>
+                    </div>
                     <div id="top21">
+                        <div>
+                            <i class="fa-solid fa-circle-plus",style='font-size:30px'></i></i>
+                           <a href="./newproduct.html"> <h4 style="margin-top: 2px;">New Products</h4></a>
+                        </div>
                         <div>
                             <a href="./adminuser.html"><i class='fas fa-user-alt' style='font-size:24px'></i>
                                 <h4 style="margin-top: 2px;">users</h4>
@@ -57,16 +74,17 @@
                     <hr>
                 </div>
             
+
                
+    
+
                  </div>
+                 
     </div>
 
-
-
-<div id="box3">
+    <div id="box3">
    
-</div>
-
+    </div>
 
 
 </body>
@@ -74,14 +92,14 @@
 </html>
 <script>
      let url="http://localhost:3000/product/all"
-    display();
+    display(url);
  function logout(){
         console.log("helo")
         localStorage.setItem("admindetails"," ");
         window.location="./adminhome.html"
     }
    
-  async function display(){
+  async function display(url){
     let res=await fetch(url);
     let data=await res.json();
     console.log(data);
@@ -90,8 +108,8 @@ return`<div>
     <img src="${ele.Imagesrc}" alt="">
     <h3>${ele.name}</h3>
     <p>${ele.Details}</p>
-    <h3>${ele.Price}</h3>
-    <button id="${ele._id}" class="update">Update</button>
+    <h3>$${ele.Price}</h3>
+    <button id="${ele._id}" class="update">Edit</button>
     <button id="${ele._id}" class="delete">Delete</button>
 </div>`
     }).join("");
@@ -108,6 +126,7 @@ for(i=0;i<delop.length;i++){
             headers: {"Content-Type": "application/json","authorization":token}
         })
         alert("Product has been deleted");
+        window.location="./Product.html"
     })
     }
 
@@ -137,5 +156,14 @@ for(i=0;i<updateop.length;i++){
 
 
 }
-    
+function search(){
+let str=document.querySelector("#sear").value;
+let ur=`http://localhost:3000/product/search/?str=${str}`;
+display(ur);
+}
+document.querySelector("#filter").addEventListener("click",()=>{
+    let val=document.querySelector("#filter").value;
+    let ur=`http://localhost:3000/product/sort/${val}`;
+    display(ur);
+})
 </script>

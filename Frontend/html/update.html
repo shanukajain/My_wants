@@ -16,7 +16,11 @@
             margin: auto;
             /* margin-top: 200px;  */
         }
-
+        #top {
+            width: 98%;
+            margin: auto;
+            text-align: center;
+        }
         #main {
             text-align: center;
         }
@@ -103,7 +107,8 @@ let obj={
             headers: {"Content-Type": "application/json","authorization":token}
         })
         console.log(res);
-        // alert("Product has been deleted");
+        alert("Product has been updated");
+        window.location="./Product.html";
     })
 
 </script>

@@ -12,13 +12,17 @@
     <link rel="stylesheet" href="../css/box.css">
     <link rel="stylesheet" href="../css/table.css">
     <style>
-        
         h1 {
             margin: auto;
             /* margin-top: 200px;  */
         }
-
+        #top {
+            width: 98%;
+            margin: auto;
+            text-align: center;
+        }
         #main {
+            width: 98%;
             text-align: center;
         }
         a{
@@ -34,20 +38,20 @@
             <div id="top11">
                 
                 <div>
-                    <a href="../index.html"> <img src="../image/My.png" alt=""
+                    <a href="./adminhome.html"> <img src="../image/My.png" alt=""
                             style="height: 55px; margin-top: -10px;"></a>
                 </div>
                 <div id="top2">
                     <div id="top21">
+                       
                         <div>
-                            <a href="./newproduct.html"><i class='fas fa-user-alt' style='font-size:24px'></i>
-                                <h4 style="margin-top: 2px;">New Product</h4>
-                            </a>
+                            <i class="fa-solid fa-bag-shopping"style='font-size:24px'></i>
+                           <a href="./Product.html"> <h4 style="margin-top: 2px;">Products</h4></a>
+                         
                         </div>
                         <div>
                            <i class='fas fa-user-alt' style='font-size:24px'></i>
                                 <h4 onclick="logout()" style="margin-top: 2px;">Logout</h4>
-                            
                         </div>
                     </div>
                 </div>
@@ -89,6 +93,7 @@
     let newdata=data.map((ele,index)=>{
 return`
     <tr><td>${ele.name}</td>
+        <td>${ele.Username}</td>
     <td>${ele.gender}</td>
     <td>${ele.role}</td>
     <td><button id="${ele._id}" class="delete">Delete</button></td></tr>
@@ -96,7 +101,8 @@ return`
     }).join("");
 document.querySelector("#box4").innerHTML= `<table>
                         <thead>
-                            <tr> <td>Title</td>
+                            <tr> <td>Name</td>
+                                <td>Username</td>
                             <td>Gender</td>
                         <td>Role</td>
                     <td>Delete</td>

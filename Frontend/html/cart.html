@@ -8,8 +8,14 @@
     <script src="https://kit.fontawesome.com/b06a377e67.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="../css/nav.css">
 <link rel="stylesheet" href="../css/box.css">
+<link rel="stylesheet" href="../css/cart.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+<style>
+    a{
+        text-decoration: none;
+        color: black;
+    }
+    </style>
 </head>
 <body>
     <div id="top">
@@ -36,30 +42,25 @@
           </div>
         <div id="top11">
             <div>
-                <select name="" id="">
-                    <option value="US">US</option>
-                    <option value="Canada">CANADA</option>
-                </select>
-                <i class='	fas fa-box' style='font-size:20px; '><p style="font-family:Arial;"> Store</p></i>
+             
             </div>
             <div>
-                <a href="./index.html"> <img src="./image/My.png" alt="" style="height: 55px; margin-top: -10px;"></a>
+                <a href="../index.html"> <img src="../image/My.png" alt="" style="height: 55px; margin-top: -10px;"></a>
             </div>
             <div id="top2">
                 <div>
-                    <input type="text" placeholder="Search.." name="search" style="border: 0px; border-bottom: 1px solid black;">
+                    <!-- <input type="text" placeholder="Search.." name="search" style="border: 0px; border-bottom: 1px solid black;">
                     <button type="submit" style="border: 0px; background-color:transparent; margin-left: -35px;"><i
-                            class="fa fa-search"></i></button>
+                            class="fa fa-search"></i></button> -->
                 </div>
 
                 <div id="top21">
                     <div>
-                        <i class='fas fa-user-alt' style='font-size:24px'></i>
-                        <h4>Sign_up</h4>
+                        
                     </div>
                     <div>
                         <i class='fas fa-user-alt' style='font-size:24px'></i>
-                        <h4>Login</h4>
+                        <a href="../index.html"><h4 onclick="logout()">Logout</h4></a>
                     </div>
                 </div>
             </div>
@@ -78,7 +79,21 @@
         </div>
 
     </div>
+    
     <hr>
+    <div id="box3"style="margin-top: 200px;">
+        
+    </div>
+    <hr>
+    <div id="box5">
+    <h2 id="total" style="text-align: center;"></h2>
+    <hr>
+    <div id="checkoutModal">
+		<div id="checkoutModalContent"></div>
+	</div>
+
+    <button onclick="toggleCheckoutModal()">Check out</button>
+</div>
     <div id="bottom">
         <div>
         <p><b>My Account</b></p></a>
@@ -111,3 +126,201 @@
     </div>
 </body>
 </html>
+<script>
+let url="http://localhost:3000/cart/all";
+let data=[];
+const checkoutModalContent = document.querySelector("#checkoutModalContent");
+const checkoutModal = document.querySelector("#checkoutModal");
+const quantities = {};
+let total=0
+     display();
+    async function display(){
+        let token=JSON.parse(localStorage.getItem("userdetails"))||"";
+        
+    let res=await fetch(`http://localhost:3000/cart/all`,{
+            method:"GET",
+            // body:JSON.stringify(dat[0]),
+            headers: {"Content-Type": "application/json","authorization":token.token}
+        })
+    data=await res.json();
+    console.log(data);
+    
+    let newdata=data.map((ele,index)=>{
+        total+=ele.Price;
+return`<div>
+    <img src="${ele.Imagesrc}" alt="">
+    <h3>${ele.name}</h3>
+    <p>${ele.Details}</p>
+    <h3>$${ele.Price}</h3>
+ 
+        <div class="productQuantity">
+					Qty:
+    <span class="quantity" data-id=${ele._id}> 1 </span>
+					<button class="increase" data-id=${ele._id}> + </button>
+					<button class="decrease" data-id=${ele._id}> - </button>
+                    </div>
+                    <br>
+                        <button id="${ele._id}" class="cart">Delete</button>
+    
+</div>`
+    }).join("");
+    if(data.length === 0) {
+        loadCartEmptyMessage();
+        return;
+    }else{
+    for (let productId of data) {
+        quantities[productId._id] = 1;
+    }
+    // console.log(newdata)
+    document.querySelector("#total").innerText=`Total:$${total}`
+    console.log(total)
+    document.querySelector("#box3").innerHTML=newdata;
+    let delop=document.querySelectorAll(".cart")
+for(i=0;i<delop.length;i++){
+    delop[i].addEventListener("click",async()=>{
+        // console.log(i,"hello")
+        let id=event.srcElement.id;
+        let token=JSON.parse(localStorage.getItem("userdetails"))||"";
+               let res= await fetch(`http://localhost:3000/cart/delete/${id}`,{
+            method:"DELETE",
+            // body:JSON.stringify(dat[0]),
+            headers: {"Content-Type": "application/json","authorization":token.token}
+        })
+        let data1=await res.json();
+        console.log(data1);
+        alert("Product removed from cart");
+        window.location="./cart.html"
+    }
+)
+let decreaseButtons = document.querySelectorAll(".decrease");
+    for (let decreaseButton of decreaseButtons) {
+        decreaseButton.addEventListener("click", function (event) {
+			let productId = decreaseButton.dataset.id;
+			if (quantities[productId] > 1) {
+				quantities[productId]--;
+				updateQuantitiesInLocalStorage();
+				let span = decreaseButton.parentElement.children[0];
+                console.log(quantities[productId]);
+				span.innerText = quantities[productId];
+				updateTotalBill();
+			} 
+        });
+    }
+}
+let increaseButtons = document.querySelectorAll(".increase");
+    for (let increaseButton of increaseButtons) {
+        increaseButton.addEventListener("click", function (event) {
+			let productId = increaseButton.dataset.id;
+            quantities[productId]++;
+            console.log(quantities[productId]);
+            updateQuantitiesInLocalStorage();
+			let span = increaseButton.parentElement.children[0];
+            console.log(quantities[productId]);
+			span.innerText = quantities[productId];
+			updateTotalBill();
+        });
+    }
+// let totalp=document.querySelectorAll(".num")
+// for(i=0;i<totalp.length;i++){
+//     totalp[i].addEventListener("change",async(value)=>{
+//         let n=value
+
+//     console.log(n);
+//     })}
+}
+    }
+
+function updateQuantitiesInLocalStorage() {
+    localStorage.setItem("quantities", JSON.stringify(quantities));
+}
+function updateTotalBill() {
+	let cartBillElement = document.querySelector("#total");
+	cartBillElement.innerText = "Total:$"+getCartBill();
+}
+function getCartBill() {
+	let cartBill = 0;
+	for(let product of data) {
+		cartBill += product.Price * quantities[product._id];
+	}
+	return cartBill;
+}
+
+function loadCartEmptyMessage() {
+    // this message is just to encourage the user to buy products even though he already brought something
+    let main=document.querySelector("#box3")
+    main.innerHTML = `
+		<div id="emptyCartMessageDiv">
+			<h1> Your cart is empty </h1>
+			<a href="./menu.html" id="startOrderAnchor">Start order</a>
+		</div>
+	`;
+}
+function logout(){
+        // console.log("helo")
+        localStorage.setItem("userdetails"," ");
+        window.location="../index.html"
+    }
+   
+    function toggleCheckoutModal() {
+        const checkoutModalContent = document.querySelector("#checkoutModalContent");
+	let isCheckoutModalOpen = checkoutModal.classList.toggle("toggleCheckoutModal");
+	console.log(isCheckoutModalOpen)
+	if(isCheckoutModalOpen===false) {
+		return;
+	}
+	checkoutModalContent.innerHTML = `
+		<h1>Order details</h1>
+		<h3>Order summary</h3>
+		<table id="orderSummary">
+			<tr>
+				<td> Total bill </td>
+				<td id="totalBill"> ${getCartBill()} <td>
+			</tr>
+			<tr>
+				<td> GST (18%) </td>
+				<td id="gst"> ${0.18 * getCartBill()} <td>
+			</tr>
+			<tr>
+				<td> Gross total </td>
+				<td id="grossTotal"> ${1.18 * getCartBill()} <td>
+			</tr>
+			
+			</table>
+		<h3>Delivery address</h3>
+		
+		<h3>Card details</h3>
+		<form id="paymentForm">
+			<label>Card Holder Name<input type="text" id="cardHolderName" required></label>
+			<label>Card Number<input type="number" id="cardNumber" required></label>
+			<label>Expiry Date<input type="month" id="expiryDate" required></label>
+			<label>CVV Number<input type="number" id="cvvNumber" required></label>
+			<label><input type="submit" value="Make payment"></label>
+		</form>
+	`;
+	let paymentForm = document.querySelector("#paymentForm");
+	paymentForm.addEventListener("submit", handlePaymentForm);
+}
+
+function handlePaymentForm(event) {
+	event.preventDefault();
+	let form = event.target;
+	let card = {
+		cardHolderName: document.querySelector("#cardHolderName").value,
+		cardNumber: document.querySelector("#cardNumber").value,
+		expiryDate: document.querySelector("#expiryDate").value,
+		cvvNumber: document.querySelector("#cvvNumber").value,
+	}
+	if(card.cardNumber.length!=12) {
+		alert("Card number should be 12 digits");
+		return;
+	}
+	if(card.cvvNumber.length!=3) {
+		alert("CVV number should be 3 digits");
+		return;
+	}
+	// moveProductIdsFromCartToOrdered();
+    alert("Payment successfull.....");
+    window.location="../index.html"
+}
+
+</script>

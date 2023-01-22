@@ -9,7 +9,12 @@
 <link rel="stylesheet" href="../css/nav.css">
 <link rel="stylesheet" href="../css/box.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+<style>
+a{
+    text-decoration: none;
+    color: black;
+}
+</style>
 </head>
 <body>
     <div id="top">
@@ -36,29 +41,30 @@
           </div>
         <div id="top11">
             <div>
-                <select name="" id="">
-                    <option value="US">US</option>
-                    <option value="Canada">CANADA</option>
+                <select name="" id="filter">
+                    <option value="">Price Filter</option>
+                    <option value="asc">Low to High</option>
+                    <option value="desc">High to Low</option>
                 </select>
-                <i class='	fas fa-box' style='font-size:20px; '><p style="font-family:Arial;"> Store</p></i>
+          <i class='	fas fa-box' style='font-size:20px; '><p style="font-family:Arial;" onclick="cart()"> Cart</p></i>
             </div>
             <div>
                 <a href="../index.html"> <img src="../image/My.png" alt="" style="height: 55px; margin-top: -10px;"></a>
             </div>
             <div id="top2">
                 <div>
-                    <input type="text" placeholder="Search.." name="search" style="border: 0px; border-bottom: 1px solid black;">
-                    <button type="submit" style="border: 0px; background-color:transparent; margin-left: -35px;"><i
+                    <input type="text" placeholder="Search.." id="sear" name="search" style="border: 0px; border-bottom: 1px solid black;">
+                    <button type="submit" style="border: 0px; background-color:transparent; margin-left: -35px;" onclick="search()"><i
                             class="fa fa-search"></i></button>
                 </div>
 
                 <div id="top21">
-                    <div>
-                        <i class='fas fa-user-alt' style='font-size:24px'></i>
+                    <div id="sign_up">
+                        <a href="./signup.html" style="text-decoration: none;"><i class='fas fa-user-alt' style='font-size:24px'></i></a>
                         <h4>Sign_up</h4>
                     </div>
-                    <div>
-                        <i class='fas fa-user-alt' style='font-size:24px'></i>
+                    <div id="login">
+                      <a href="./login.html">  <i class='fas fa-user-alt' style='font-size:24px'></i></a>
                         <h4>Login</h4>
                     </div>
                 </div>
@@ -79,6 +85,9 @@
 
     </div>
     <hr>
+    <div id="box3" style="margin-top: 100px;">
+   
+    </div>
     <div id="bottom">
         <div>
         <p><b>My Account</b></p></a>
@@ -111,3 +120,83 @@
     </div>
 </body>
 </html>
+<script>
+     let url="http://localhost:3000/product/all";
+     display(url);
+    async function display(url){
+    let res=await fetch(url);
+    let data=await res.json();
+    console.log(data);
+    let newdata=data.map((ele,index)=>{
+return`<div>
+    <img src="${ele.Imagesrc}" alt="">
+    <h3>${ele.name}</h3>
+    <p>${ele.Details}</p>
+    <h3>$${ele.Price}</h3>
+    <button id="${ele._id}" class="cart">Add to cart</button>
+</div>`
+    }).join("");
+    document.querySelector("#box3").innerHTML=newdata;
+    let delop=document.querySelectorAll(".cart")
+for(i=0;i<delop.length;i++){
+    delop[i].addEventListener("click",async()=>{
+        // console.log(i,"hello")
+        let id=event.srcElement.id;
+        let token=JSON.parse(localStorage.getItem("userdetails"))||"";
+        console.log(token);
+        if(token==""){
+            alert("Login first.....");
+        }else{
+            let dat=data.filter((ele,index)=>{
+        if(ele._id==id){
+            return ele;
+        }
+        })
+        console.log(dat)
+        let res= await fetch(`http://localhost:3000/cart/create`,{
+            method:"POST",
+            body:JSON.stringify(dat[0]),
+            headers: {"Content-Type": "application/json","authorization":token.token}
+        })
+        let data1=await res.json();
+        console.log(data1);
+        alert("Product in your cart");
+    }
+    })
+    }
+}
+
+function cart(){
+    let token=JSON.parse(localStorage.getItem("userdetails"))||"";
+    if(token==""){
+        alert("Please login first...");
+    }else {
+        window.location="./cart.html"
+    }
+}
+function search(){
+let str=document.querySelector("#sear").value;
+let ur=`http://localhost:3000/product/search/?str=${str}`;
+display(ur);
+}
+document.querySelector("#filter").addEventListener("click",()=>{
+    let val=document.querySelector("#filter").value;
+    let ur=`http://localhost:3000/product/sort/${val}`;
+    display(ur);
+})
+window.addEventListener("load",()=>{
+    let user=JSON.parse(localStorage.getItem("userdetails"))||" ";
+        // let user=JSON.parse(data);
+        console.log(user)
+        if(user!=" "){
+            document.querySelector("#sign_up").innerHTML=`<i class='fas fa-user-alt' style='font-size:24px'></i><h4>${user.username}</h4>`;
+            document.querySelector("#login").innerHTML=`<i class='fas fa-user-alt' style='font-size:24px' onclick="logout()"></i><h4 id="logout">Logout</h4>`
+            document.querySelector("#logout").addEventListener("click",logout);
+        }
+    })
+    function logout(){
+        console.log("helo")
+        localStorage.setItem("userdetails","");
+        window.location="../index.html"
+    }
+</script>

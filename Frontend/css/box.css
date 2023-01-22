@@ -44,8 +44,52 @@
 
 #box3{
     display: grid;
+    /* width: 70%; */
     grid-template-columns:repeat(4,1fr);
     gap:10px;
     justify-content: space-evenly;
     text-align: center;
+    /* box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1); */
 }
+#box3 div{
+    margin-top: 30px;
+    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+    padding: 5%;
+}
+#box3 img{
+    width: 300px;
+}
+#box5{
+    display: flex;
+    justify-content: space-between;
+    margin-left: 10%;
+    margin-right: 20%;
+}
+#box5 button{
+background-color: black;
+color: white;
+}
+#box3 button{
+    background-color: black;
+    color: white;
+    }
+    a{
+        text-decoration: none;
+        color: black;
+    }
+    @media screen and (max-width: 900px) {
+    #box3{
+        grid-template-columns:repeat(2,1fr);
+    }
+    #menubar{
+       visibility: hidden;
+    }
+    }
+    @media screen and (max-width: 600px) {
+        #box3{
+            grid-template-columns:repeat(1,1fr);
+        }
+        #menubar{
+            visibility: hidden;
+         }
+        }

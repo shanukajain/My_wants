@@ -1,13 +1,18 @@
 #top {
     display: grid;
     width: 100%;
+    margin: auto;
     z-index: 1;
     position: fixed;
     text-align: center;
     margin-top:-16px;
     background-color: white;
 }
-
+@media screen and (max-width: 500px) {
+	h1, h2, h3, li {
+		font-size: 5vw;
+	}
+}
 #bar {
     background-color: rgb(49, 49, 50);
     color: white;

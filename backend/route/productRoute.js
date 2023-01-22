@@ -8,6 +8,31 @@ ProdcutRouter.use(express.json());
 ProdcutRouter.get("/",(req,res)=>{
     res.send("hello")
 })
+ProdcutRouter.get("/search/",async(req,res)=>{
+    try {
+        // console.log(req.body);
+        console.log(req.query);
+        let data=await ProductModel.find({name:{$regex:req.query.str ,$options:"$i"}});
+        res.send(data);
+    } catch (error) {
+        res.send(error);
+    }
+})
+ProdcutRouter.get("/sort/:sort",async(req,res)=>{
+    try {
+        // console.log(req.body);
+        console.log(req.params);
+        let data;
+        if(req.params.sort=="asc"){
+        data=await ProductModel.find().sort({Price:1});
+        }else {
+            data=await ProductModel.find().sort({Price:-1});
+        }
+        res.send(data);
+    } catch (error) {
+        res.send(error);
+    }
+})
 ProdcutRouter.get("/all",async(req,res)=>{
     try {
         let data=await ProductModel.find();
@@ -16,6 +41,7 @@ ProdcutRouter.get("/all",async(req,res)=>{
         res.send(error);
     }
 })
+
 ProdcutRouter.use(productauth);
 ProdcutRouter.post("/create",async(req,res)=>{
     try {
