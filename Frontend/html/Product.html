@@ -91,7 +91,7 @@
 
 </html>
 <script>
-     let url="http://localhost:3000/product/all"
+     let url="https://handsome-earmuffs-fly.cyclic.app/product/all"
     display(url);
  function logout(){
         console.log("helo")
@@ -121,7 +121,7 @@ for(i=0;i<delop.length;i++){
         let id=event.srcElement.id;
         let token=localStorage.getItem("admindetails")
         console.log(id);
-        let res= await fetch(`http://localhost:3000/product/delete/${id}`,{
+        let res= await fetch(`https://handsome-earmuffs-fly.cyclic.app/product/delete/${id}`,{
             method:"DELETE",
             headers: {"Content-Type": "application/json","authorization":token}
         })
@@ -158,12 +158,12 @@ for(i=0;i<updateop.length;i++){
 }
 function search(){
 let str=document.querySelector("#sear").value;
-let ur=`http://localhost:3000/product/search/?str=${str}`;
+let ur=`https://handsome-earmuffs-fly.cyclic.app/product/search/?str=${str}`;
 display(ur);
 }
 document.querySelector("#filter").addEventListener("click",()=>{
     let val=document.querySelector("#filter").value;
-    let ur=`http://localhost:3000/product/sort/${val}`;
+    let ur=`https://handsome-earmuffs-fly.cyclic.app/product/sort/${val}`;
     display(ur);
 })
 </script>

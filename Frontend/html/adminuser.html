@@ -78,7 +78,7 @@
 
 </html>
 <script>
-     let url="http://localhost:3000/all"
+     let url="https://handsome-earmuffs-fly.cyclic.app/all"
     display();
  function logout(){
         console.log("helo")
@@ -118,7 +118,7 @@ for(i=0;i<delop.length;i++){
         let id=event.srcElement.id;
         let token=localStorage.getItem("admindetails")
         console.log(id);
-        let res= await fetch(`http://localhost:3000/product/delete/${id}`,{
+        let res= await fetch(`https://handsome-earmuffs-fly.cyclic.app/product/delete/${id}`,{
             method:"DELETE",
             headers: {"Content-Type": "application/json","authorization":token}
         })

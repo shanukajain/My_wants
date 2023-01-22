@@ -127,7 +127,7 @@
 </body>
 </html>
 <script>
-let url="http://localhost:3000/cart/all";
+let url="https://handsome-earmuffs-fly.cyclic.app/cart/all";
 let data=[];
 const checkoutModalContent = document.querySelector("#checkoutModalContent");
 const checkoutModal = document.querySelector("#checkoutModal");
@@ -137,7 +137,7 @@ let total=0
     async function display(){
         let token=JSON.parse(localStorage.getItem("userdetails"))||"";
         
-    let res=await fetch(`http://localhost:3000/cart/all`,{
+    let res=await fetch(`https://handsome-earmuffs-fly.cyclic.app/cart/all`,{
             method:"GET",
             // body:JSON.stringify(dat[0]),
             headers: {"Content-Type": "application/json","authorization":token.token}
@@ -181,7 +181,7 @@ for(i=0;i<delop.length;i++){
         // console.log(i,"hello")
         let id=event.srcElement.id;
         let token=JSON.parse(localStorage.getItem("userdetails"))||"";
-               let res= await fetch(`http://localhost:3000/cart/delete/${id}`,{
+               let res= await fetch(`https://handsome-earmuffs-fly.cyclic.app/cart/delete/${id}`,{
             method:"DELETE",
             // body:JSON.stringify(dat[0]),
             headers: {"Content-Type": "application/json","authorization":token.token}

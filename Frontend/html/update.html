@@ -101,7 +101,7 @@ let token=localStorage.getItem("admindetails")
 let obj={
     Imagesrc,Price,Details,name
 }
-    let res= await fetch(`http://localhost:3000/product/update/${id}`,{
+    let res= await fetch(`https://handsome-earmuffs-fly.cyclic.app/product/update/${id}`,{
             method:"PATCH",
             body:JSON.stringify(obj),
             headers: {"Content-Type": "application/json","authorization":token}
