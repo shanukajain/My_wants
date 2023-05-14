@@ -175,6 +175,7 @@
 </html>
 <script>
     // let frame=4;
+    checkURL();
     window.addEventListener("load",()=>{
         let user=JSON.parse(localStorage.getItem("userdetails"))||" ";
         // let user=JSON.parse(data);
@@ -186,7 +187,7 @@
         }
     })
     function logout(){
-        console.log("helo")
+        // console.log("helo")
         localStorage.setItem("userdetails"," ");
         window.location="./index.html"
     }
@@ -233,6 +234,17 @@ display(S_frame);
 
     }
 
+    async function checkURL() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const paramEmail = urlParams.get('email');
+        const paramValue = urlParams.get('id');
+        const paramName = urlParams.get('name');
+        if (paramValue && paramName && paramEmail) {
+            localStorage.setItem("token", JSON.stringify(paramValue));
+            localStorage.setItem("userdetails", JSON.stringify({"username":paramName}));
+            localStorage.setItem("email", JSON.stringify(paramEmail));
+        }
+    }
 
 </script>
 

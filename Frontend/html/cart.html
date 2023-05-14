@@ -53,8 +53,17 @@
                     <button type="submit" style="border: 0px; background-color:transparent; margin-left: -35px;"><i
                             class="fa fa-search"></i></button> -->
                 </div>
-
-                <div id="top21">
+                  <div id="top21">
+                    <div id="sign_up">
+                        <a href="./signup.html" style="text-decoration: none;"><i class='fas fa-user-alt' style='font-size:24px'></i></a>
+                        <h4>Sign_up</h4>
+                    </div>
+                    <div id="login">
+                      <a href="./login.html">  <i class='fas fa-user-alt' style='font-size:24px'></i></a>
+                        <h4>Login</h4>
+                    </div>
+                </div>
+                <!-- <div id="top21">
                     <div>
                         
                     </div>
@@ -62,7 +71,7 @@
                         <i class='fas fa-user-alt' style='font-size:24px'></i>
                         <a href="../index.html"><h4 onclick="logout()">Logout</h4></a>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
         <div id="menubar">
@@ -301,7 +310,7 @@ function logout(){
 	paymentForm.addEventListener("submit", handlePaymentForm);
 }
 
-function handlePaymentForm(event) {
+async function handlePaymentForm(event) {
 	event.preventDefault();
 	let form = event.target;
 	let card = {
@@ -318,9 +327,24 @@ function handlePaymentForm(event) {
 		alert("CVV number should be 3 digits");
 		return;
 	}
-	// moveProductIdsFromCartToOrdered();
     alert("Payment successfull.....");
+    let token=JSON.parse(localStorage.getItem("userdetails"))||"";
+               let res= await fetch(`https://handsome-earmuffs-fly.cyclic.app/cart/delete/`,{
+            method:"DELETE",
+            headers: {"Content-Type": "application/json","authorization":token.token}
+        });
     window.location="../index.html"
 }
-
+window.addEventListener("load",()=>{
+    let user=JSON.parse(localStorage.getItem("userdetails"))||"";
+        // let user=JSON.parse(data);
+        console.log(user)
+        if(user!=""){
+            document.querySelector("#sign_up").innerHTML=`<i class='fas fa-user-alt' style='font-size:24px'></i><h4>${user.username}</h4>`;
+            document.querySelector("#login").innerHTML=`<i class='fas fa-user-alt' style='font-size:24px' onclick="logout()"></i><h4 id="logout">Logout</h4>`
+            document.querySelector("#logout").addEventListener("click",logout);
+        }
+    }) 
 </script>
+
+

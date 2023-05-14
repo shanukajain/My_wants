@@ -18,3 +18,12 @@ color: white;
 height: 50px;
 font-family: 'Lucida Sans';
 }
+button{
+    margin: auto;
+    
+}
+
+#github{
+    border: 0px;
+    background-color: transparent;
+}

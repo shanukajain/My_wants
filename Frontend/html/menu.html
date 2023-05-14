@@ -152,12 +152,19 @@ for(i=0;i<delop.length;i++){
             return ele;
         }
         })
-        console.log(dat)
+        let obj={
+            "name":dat[0].name,
+    "Details":dat[0].Details,
+    "Price":dat[0].Price,
+    "Imagesrc":dat[0].Imagesrc,
+        }
+        
         let res= await fetch(`https://handsome-earmuffs-fly.cyclic.app/cart/create`,{
             method:"POST",
-            body:JSON.stringify(dat[0]),
+            body:JSON.stringify(obj),
             headers: {"Content-Type": "application/json","authorization":token.token}
         })
+        console.log(res);
         let data1=await res.json();
         console.log(data1);
         alert("Product in your cart");
@@ -185,10 +192,9 @@ document.querySelector("#filter").addEventListener("click",()=>{
     display(ur);
 })
 window.addEventListener("load",()=>{
-    let user=JSON.parse(localStorage.getItem("userdetails"))||" ";
-        // let user=JSON.parse(data);
-        console.log(user)
-        if(user!=" "){
+    let user=JSON.parse(localStorage.getItem("userdetails"))||null;
+         console.log(user)
+        if(user!=null){
             document.querySelector("#sign_up").innerHTML=`<i class='fas fa-user-alt' style='font-size:24px'></i><h4>${user.username}</h4>`;
             document.querySelector("#login").innerHTML=`<i class='fas fa-user-alt' style='font-size:24px' onclick="logout()"></i><h4 id="logout">Logout</h4>`
             document.querySelector("#logout").addEventListener("click",logout);
